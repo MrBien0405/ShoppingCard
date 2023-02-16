@@ -29,11 +29,11 @@
       }
     }
     .ContentShoppingCard {
-      display: flex;
-      gap: 20px;
-      .ContentShoppingCardContainer {
-        width: 100%;
-        .LeftContentShoppingCard {
+        display: flex;
+        gap: 20px;
+        .ContentShoppingCardContainer {
+            width: 100%;
+          .LeftContentShoppingCard {
           border: 1px solid #337ab7;
           border-color: #337ab7;
           .panel-heading {
@@ -108,6 +108,7 @@
                 height: 40px;
                 background-color: #ff6633;
                 .text-media {
+                    cursor: pointer;
                   color: #eee;
                   font-size: 15px;
                   text-align: center;
@@ -161,6 +162,8 @@
                     vertical-align: top;
                     text-align: left;
                     td {
+                        align-items: center;
+                       
                       strong {
                         font-weight: 700;
                       }
@@ -213,6 +216,7 @@
                 white-space: nowrap;
                 vertical-align: baseline;
                 border-radius: 5px;
+                align-items: center;
               }
               tfoot {
                 tr {
@@ -272,6 +276,21 @@
     }
     
 }
-.update-cart-item{
+.delete-cart-item{
     cursor: pointer;
+}
+.text-quantity{
+   text-align: center;
+}
+.delete-item{
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    margin-left: 30%;
+    margin-top:5%;
+    // margin: auto;
+}
+.text-subtotal{
+    text-align: center;
+
 }

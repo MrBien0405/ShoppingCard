@@ -1,109 +1,66 @@
 import React, { useEffect, useState } from "react";
 import logo from "../../components/assets/Logo-Rikkei.png";
-import img1 from "../../components/assets/apple-airpods-pro-2-2022-didongviet.png";
+
 import "./ShoppingCard.scss";
-import axios from "axios";
 
-function ShoppingCard() {
-  const [dataProduct, setDataProduct] = useState([]);
-  const [valueInput, setVauleInput] = useState();
-  const [dataCart, setDataCart] = useState([]);
-  useEffect(() => {
-    const fetDataProduct = async () => {
-      const res = await fetch("http://localhost:3000/listproduct");
-      const dataListProduct = await res.json();
-      // console.log(dataListProduct);
-      setDataProduct(dataListProduct);
-    };
-    fetDataProduct().catch(console.error);
-  }, []);
-  const handleClickSell = (e, i) => {
-    let id = e.target.id;
-    let quantity = 0;
-    let price = 12;
-    console.log(e.target.id);
-    // console.log(dataProduct[0]);
-    for (let i = 0; i < dataProduct.length; i++) {
-      if (id !== dataProduct[i].id) {
-        axios
-          .post("http://localhost:3000/yourcart", {
-            ...dataProduct[e.target.id - 1],
-            quantity: 1,
-            subtotal: quantity * price,
-          })
-          .then((data) => {
-            console.log(data);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } else {
-        axios
-          .patch(`http://localhost:3000/yourcart/${id}`, {
-            // ...dataProduct[e.target.id - 1],
-            quantity: quantity + 1,
-            subtotal: quantity * price,
-          })
-          .then((data) => {
-            console.log(data);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-      console.log(id);
-    }
-  };
-  const handleChangeInput = () => {
-    setVauleInput(valueInput);
-  };
+function ShoppingCard(props) {
+    // console.log(props);
+    let {handleBuyProduct, handleChangeInput, handleClickDelete, dataProduct, dataCart,valueInput} = props
+//   const [dataProduct, setDataProduct] = useState([]);
+//   const [valueInput, setVauleInput] = useState();
+//   const [dataCart, setDataCart] = useState([]);
+//   useEffect(() => {
+//     const fetDataProduct = async () => {
+//       const res = await fetch("http://localhost:3000/listproduct");
+//       const dataListProduct = await res.json();
+//       setDataProduct(dataListProduct);
+//     };
+//     fetDataProduct().catch(console.error);
+//   }, []);
+//   const handleChangeInput = () => {
+//     setVauleInput(valueInput);
+//   };
+//   //   start
+//   const handleBuyProduct = (e, $id) => {
+//     const new_id = e.target.id;
+//     const check_cart = dataCart.filter((item) => item.id == new_id);
+//     if (check_cart.length !== 0) {
+//       const new_quantity = check_cart[0].quantity + 1;
+//       const new_price = check_cart[0].price;
+//       const new_subtotal = new_quantity * new_price;
+//       console.log(check_cart[0].subtotal, new_price, new_subtotal);
+//       const new_cart_update = {
+//         ...check_cart[0],
+//         quantity: new_quantity,
+//         new_subtotal,
+//       };
+//       axios.patch(`http://localhost:3000/yourcart/${new_id}`, new_cart_update);
+//     } else {
+//       axios.post(`http://localhost:3000/yourcart`,{
+//         ...dataProduct[new_id-1]
+//       });
+//     }
+//   };
+//   //   End
 
-  //   start
-  const handleTest = (e, $id) => {
-    const new_id = e.target.id;
-    const check_cart = dataCart.filter((item) => item.id == new_id);
-    if (check_cart.length !== 0) {
-      const new_quantity = check_cart[0].quantity + 1;
-      const new_cart_update = { ...check_cart[0], quantity: new_quantity };
-      axios.patch(`http://localhost:3000/yourcart/${new_id}`, new_cart_update);
-    } else {
-      console.log(123);
-    }
-  };
-  //   End
-
-  const handleClickDelete = (e, i) => {
-    let id = e.target.id;
-    console.log(id);
-    axios
-      .delete(`http://localhost:3000/yourcart/${id}`)
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  //   const handleClickUpdate = (e) => {
-  //     let id = e.target.id;
-
-  //     console.log(id);
-  //     axios
-  //       .put(`http://localhost:3000/yourcart/${id}`,{
-
-  //       })
-  //       .then((data) => console.log(data))
-  //       .catch((error) => console.log(error));
-  //   };
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/yourcart")
-      .then((axiosDataCart) => setDataCart(axiosDataCart.data))
-      .catch((err) => console.log(err));
-  }, []);
-  //   console.log(dataCart);
-
+//   const handleClickDelete = (e, i) => {
+//     let id = e.target.id;
+//     console.log(id);
+//     axios
+//       .delete(`http://localhost:3000/yourcart/${id}`)
+//       .then((data) => {
+//         console.log(data);
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//   };
+//   useEffect(() => {
+//     axios
+//       .get("http://localhost:3000/yourcart")
+//       .then((axiosDataCart) => setDataCart(axiosDataCart.data))
+//       .catch((err) => console.log(err));
+//   }, []);
   return (
     <>
       <div className='ShoppingCard'>
@@ -120,7 +77,7 @@ function ShoppingCard() {
                 </div>
 
                 {dataProduct.map((e, i) => (
-                  <div className='panel-body'>
+                  <div key={i} className='panel-body'>
                     <div className='media-product'>
                       <div className='media-left'>
                         <a href='#'>
@@ -133,19 +90,18 @@ function ShoppingCard() {
                       </div>
                       <div className='media-price'>
                         <input
-                          // onClick={handleClickInput}
-                          id={i}
+                          id={e.id}
                           onChange={handleChangeInput}
                           type='number'
                           name='quantity-product-1'
                           value={valueInput}
                           min='1'
+                          defaultValue={1}
                         />
                         <div className='Price'>
                           <p
                             id={e.id}
-                            // onClick={handleClickSell}
-                            onClick={handleTest}
+                            onClick={handleBuyProduct}
                             className='text-media'
                           >
                             {e.price} USD
@@ -178,25 +134,18 @@ function ShoppingCard() {
                       </thead>
 
                       {dataCart.map((e, i) => (
-                        <tbody id='my-cart-body'>
+                        <tbody key={i} id='my-cart-body'>
                           <tr>
                             <th scope='row'>1</th>
                             <td>{e.name}</td>
                             <td>{e.price} USD</td>
                             <td>
-                              <p>{e.quantity}</p>
+                              <p className="text-quantity">{e.quantity}</p>
                             </td>
-                            <td>
-                              <strong>{e.subtotal} USD</strong>
+                            <td className="text-subtotal">
+                              <strong >{e.new_subtotal} USD</strong>
                             </td>
-                            <td>
-                              {/* <span
-                                id={e.id}
-                                onClick={handleClickUpdate}
-                                className='update-cart-item'
-                              > 
-                                Update
-                              </span> */}
+                            <td className="delete-item">
                               <span
                                 id={e.id}
                                 onClick={handleClickDelete}
@@ -210,15 +159,15 @@ function ShoppingCard() {
                       ))}
                       <tfoot id='my-cart-footer'>
                         <tr>
-                          <th className='textEmpty' colspan='6'>
+                          <th className='textEmpty' colSpan={6}>
                             Empty product in your cart
                           </th>
                         </tr>
                         <tr>
-                          <td colspan='4'>
+                          <td colSpan={4}>
                             There are <b>5</b> items in your shopping cart.
                           </td>
-                          <td colspan='2' className='total-price text-left'>
+                          <td colSpan={2} className='total-price text-left'>
                             {/* {e.subtotal} USD */}
                           </td>
                         </tr>
