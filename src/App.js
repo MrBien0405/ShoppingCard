@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.scss";
 import ShoppingCard from "./components/ShoppingCard/ShoppingCard";
-function App() {
+function App(props) {
+  let {valueInput}= props
   const [dataProduct, setDataProduct] = useState([]);
-  const [valueInput, setVauleInput] = useState(1);
+  // const [valueInput, setVauleInput] = useState();
   const [dataCart, setDataCart] = useState([]);
   useEffect(() => {
     const fetDataProduct = async () => {
@@ -15,35 +16,19 @@ function App() {
     fetDataProduct().catch(console.error);
   }, []);
 
-  const handleChangeInput = (e) => {
-    // setVauleInput(valueInput+1);
-    let id = e.target.id;
-    // console.log(id);
 
-    // for (let i = 0; i < dataProduct.length; i++) {
-    //   console.log(dataProduct[i].id);
-    //   console.log(id);
-    //   if (dataProduct[i].id === id) {
-    //     setVauleInput(valueInput + 1);
-    //   } else {
-    //     setVauleInput(1);
-    //   }
-    // }
-    const check_product = dataProduct.filter((item)=>item.id ===id)
-    if(check_product.length ===id){
-      setVauleInput(valueInput+1)
-    } else {
-          setVauleInput(1);
-        }
-  };
-
- 
   //   start
-  const handleBuyProduct = (e, $id) => {
+  const handleSubmit = (e, $id) => {
+    e.preventDefault();
+
+    console.log(e.target.name.value);
+    const valueInput=e.target.name.value
+
+
     const new_id = e.target.id;
     const check_cart = dataCart.filter((item) => item.id == new_id);
     if (check_cart.length !== 0) {
-      const new_quantity = check_cart[0].quantity + valueInput;
+      const new_quantity = check_cart[0].quantity + Number(valueInput)
       const new_price = check_cart[0].price;
       const new_subtotal = new_quantity * new_price;
       const new_cart_update = {
@@ -54,12 +39,13 @@ function App() {
 
       axios.patch(`http://localhost:3000/yourcart/${new_id}`, new_cart_update);
     } else {
-      const new_quantity = 1;
+      const new_quantity = Number(valueInput);
       const new_price = 12;
       const new_subtotal = new_quantity * new_price;
       console.log(new_subtotal);
       const new_cart = {
         ...dataProduct[new_id - 1],
+        quantity: new_quantity,
         new_subtotal,
       };
       axios.post(`http://localhost:3000/yourcart`, new_cart);
@@ -89,12 +75,12 @@ function App() {
   return (
     <>
       <ShoppingCard
-        handleBuyProduct={handleBuyProduct}
-        handleChangeInput={handleChangeInput}
+        handleSubmit={handleSubmit}
+    
         handleClickDelete={handleClickDelete}
         dataCart={dataCart}
         dataProduct={dataProduct}
-        valueInput={valueInput}
+      
       />
     </>
   );

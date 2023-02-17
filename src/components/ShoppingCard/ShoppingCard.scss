@@ -29,11 +29,11 @@
       }
     }
     .ContentShoppingCard {
-        display: flex;
-        gap: 20px;
-        .ContentShoppingCardContainer {
-            width: 100%;
-          .LeftContentShoppingCard {
+      display: flex;
+      gap: 20px;
+      .ContentShoppingCardContainer {
+        width: 100%;
+        .LeftContentShoppingCard {
           border: 1px solid #337ab7;
           border-color: #337ab7;
           .panel-heading {
@@ -106,13 +106,17 @@
                 margin-top: 50px;
                 max-width: 76px;
                 height: 40px;
-                background-color: #ff6633;
+
                 .text-media {
-                    cursor: pointer;
+                  cursor: pointer;
                   color: #eee;
                   font-size: 15px;
                   text-align: center;
                   line-height: 40px;
+                  width: 80px;
+                  background-color: #ff6633;
+                  border: none;
+                  border-radius: 5px;
                 }
               }
             }
@@ -162,13 +166,12 @@
                     vertical-align: top;
                     text-align: left;
                     td {
-                        align-items: center;
-                       
+                      align-items: center;
+
                       strong {
                         font-weight: 700;
                       }
                       .update-cart-item {
-                        
                         width: 60px;
                         height: 30px;
                         border: 1px solid black;
@@ -266,31 +269,28 @@
     }
   }
 }
-@media screen and (max-width:768px) {
-    .ContentShoppingCard{
-        flex-direction: column;
-        .ContentShoppingCardContainer{
-            width: 100%;
-        }
-
+@media screen and (max-width: 768px) {
+  .ContentShoppingCard {
+    flex-direction: column;
+    .ContentShoppingCardContainer {
+      width: 100%;
     }
-    
+  }
 }
-.delete-cart-item{
-    cursor: pointer;
+.delete-cart-item {
+  cursor: pointer;
 }
-.text-quantity{
-   text-align: center;
+.text-quantity {
+  text-align: center;
 }
-.delete-item{
-    display: inline-block;
-    justify-content: center;
-    align-items: center;
-    margin-left: 30%;
-    margin-top:5%;
-    // margin: auto;
+.delete-item {
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  margin-left: 30%;
+  margin-top: 5%;
+  // margin: auto;
 }
-.text-subtotal{
-    text-align: center;
-
+.text-subtotal {
+  text-align: center;
 }

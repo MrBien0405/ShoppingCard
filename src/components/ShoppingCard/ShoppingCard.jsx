@@ -4,63 +4,15 @@ import logo from "../../components/assets/Logo-Rikkei.png";
 import "./ShoppingCard.scss";
 
 function ShoppingCard(props) {
-    // console.log(props);
-    let {handleBuyProduct, handleChangeInput, handleClickDelete, dataProduct, dataCart,valueInput} = props
-//   const [dataProduct, setDataProduct] = useState([]);
-//   const [valueInput, setVauleInput] = useState();
-//   const [dataCart, setDataCart] = useState([]);
-//   useEffect(() => {
-//     const fetDataProduct = async () => {
-//       const res = await fetch("http://localhost:3000/listproduct");
-//       const dataListProduct = await res.json();
-//       setDataProduct(dataListProduct);
-//     };
-//     fetDataProduct().catch(console.error);
-//   }, []);
-//   const handleChangeInput = () => {
-//     setVauleInput(valueInput);
-//   };
-//   //   start
-//   const handleBuyProduct = (e, $id) => {
-//     const new_id = e.target.id;
-//     const check_cart = dataCart.filter((item) => item.id == new_id);
-//     if (check_cart.length !== 0) {
-//       const new_quantity = check_cart[0].quantity + 1;
-//       const new_price = check_cart[0].price;
-//       const new_subtotal = new_quantity * new_price;
-//       console.log(check_cart[0].subtotal, new_price, new_subtotal);
-//       const new_cart_update = {
-//         ...check_cart[0],
-//         quantity: new_quantity,
-//         new_subtotal,
-//       };
-//       axios.patch(`http://localhost:3000/yourcart/${new_id}`, new_cart_update);
-//     } else {
-//       axios.post(`http://localhost:3000/yourcart`,{
-//         ...dataProduct[new_id-1]
-//       });
-//     }
-//   };
-//   //   End
+  // console.log(props);
 
-//   const handleClickDelete = (e, i) => {
-//     let id = e.target.id;
-//     console.log(id);
-//     axios
-//       .delete(`http://localhost:3000/yourcart/${id}`)
-//       .then((data) => {
-//         console.log(data);
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   };
-//   useEffect(() => {
-//     axios
-//       .get("http://localhost:3000/yourcart")
-//       .then((axiosDataCart) => setDataCart(axiosDataCart.data))
-//       .catch((err) => console.log(err));
-//   }, []);
+  let {
+    handleSubmit,
+    handleClickDelete,
+    dataProduct,
+    dataCart,
+    valueInput,
+  } = props;
   return (
     <>
       <div className='ShoppingCard'>
@@ -89,24 +41,24 @@ function ShoppingCard(props) {
                         <p>{e.content}</p>
                       </div>
                       <div className='media-price'>
-                        <input
-                          id={e.id}
-                          onChange={handleChangeInput}
-                          type='number'
-                          name='quantity-product-1'
-                          value={valueInput}
-                          min='1'
-                          defaultValue={1}
-                        />
-                        <div className='Price'>
-                          <p
+                        <form onSubmit={handleSubmit} action='' id={e.id}>
+                          <input
                             id={e.id}
-                            onClick={handleBuyProduct}
-                            className='text-media'
-                          >
-                            {e.price} USD
-                          </p>
-                        </div>
+                            type='number'
+                            name='name'
+                            value={valueInput}
+                            min='1'
+                            defaultValue={1}
+                          />
+                          <div className='Price'>
+                            <button
+                              id={e.id}
+                              className='text-media'
+                            >
+                              {e.price} USD
+                            </button>
+                          </div>
+                        </form>
                       </div>
                     </div>
                   </div>
@@ -140,12 +92,12 @@ function ShoppingCard(props) {
                             <td>{e.name}</td>
                             <td>{e.price} USD</td>
                             <td>
-                              <p className="text-quantity">{e.quantity}</p>
+                              <p className='text-quantity'>{e.quantity}</p>
                             </td>
-                            <td className="text-subtotal">
-                              <strong >{e.new_subtotal} USD</strong>
+                            <td className='text-subtotal'>
+                              <strong>{e.new_subtotal} USD</strong>
                             </td>
-                            <td className="delete-item">
+                            <td className='delete-item'>
                               <span
                                 id={e.id}
                                 onClick={handleClickDelete}
