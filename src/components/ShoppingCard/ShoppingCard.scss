@@ -142,7 +142,6 @@
           }
           .panel-body {
             border: 1px solid #ddd;
-
             padding: 15px;
             .table {
               width: 100%;
@@ -162,12 +161,15 @@
                 tr {
                   th {
                     padding: 8px;
-                    line-height: 1.42857143;
                     vertical-align: top;
                     text-align: left;
+                    .abcs{
+                        display: flex !important; 
+                        justify-content: space-between !important;
+                    }
                     td {
                       align-items: center;
-
+                      
                       strong {
                         font-weight: 700;
                       }
@@ -183,6 +185,8 @@
                 }
               }
               input {
+                display: block;
+                margin: auto;
                 max-width: 50px;
                 font-size: 16px;
                 font-weight: bold;
@@ -280,17 +284,13 @@
 .delete-cart-item {
   cursor: pointer;
 }
+.update-cart-item{
+  cursor: pointer;
+}
 .text-quantity {
   text-align: center;
 }
-.delete-item {
-  display: inline-block;
-  justify-content: center;
-  align-items: center;
-  margin-left: 30%;
-  margin-top: 5%;
-  // margin: auto;
-}
+
 .text-subtotal {
   text-align: center;
 }

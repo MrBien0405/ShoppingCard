@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import logo from "../../components/assets/Logo-Rikkei.png";
-
 import "./ShoppingCard.scss";
 
 function ShoppingCard(props) {
-  // console.log(props);
-
   let {
     handleSubmit,
     handleClickDelete,
     dataProduct,
     dataCart,
     valueInput,
+    handleClickUpdate,
+    valueInputQuantity,
+    handleChaneInputQuantity,
   } = props;
+  // console.log(dataCart[0].quantity);
   return (
     <>
       <div className='ShoppingCard'>
@@ -51,10 +52,7 @@ function ShoppingCard(props) {
                             defaultValue={1}
                           />
                           <div className='Price'>
-                            <button
-                              id={e.id}
-                              className='text-media'
-                            >
+                            <button id={e.id} className='text-media'>
                               {e.price} USD
                             </button>
                           </div>
@@ -91,13 +89,31 @@ function ShoppingCard(props) {
                             <th scope='row'>1</th>
                             <td>{e.name}</td>
                             <td>{e.price} USD</td>
+
                             <td>
                               <p className='text-quantity'>{e.quantity}</p>
+
+                              <input
+                                onChange={handleChaneInputQuantity}
+                                id={e.id}
+                                type='number'
+                                min={1}
+                                value={valueInputQuantity}
+                                defaultValue={1}
+                              />
                             </td>
                             <td className='text-subtotal'>
                               <strong>{e.new_subtotal} USD</strong>
                             </td>
-                            <td className='delete-item'>
+
+                            <td>
+                              <span
+                                id={e.id}
+                                onClick={handleClickUpdate}
+                                className='update-cart-item'
+                              >
+                                Update
+                              </span>
                               <span
                                 id={e.id}
                                 onClick={handleClickDelete}
@@ -117,8 +133,9 @@ function ShoppingCard(props) {
                         </tr>
                         <tr>
                           <td colSpan={4}>
-                            There are <b>5</b> items in your shopping cart.
+                            There are <b></b> items in your shopping cart.
                           </td>
+
                           <td colSpan={2} className='total-price text-left'>
                             {/* {e.subtotal} USD */}
                           </td>
@@ -130,7 +147,8 @@ function ShoppingCard(props) {
 
                 <div className='alert-success'>
                   <span>Update </span>
-                  <b>ivysaur</b>
+                  {handleClickUpdate === 1 ? "ivysaur" : "sucessfully"}
+                  {/* <b>ivysaur</b> */}
                 </div>
               </div>
             </div>

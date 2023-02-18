@@ -3,10 +3,9 @@ import axios from "axios";
 import "./App.scss";
 import ShoppingCard from "./components/ShoppingCard/ShoppingCard";
 function App(props) {
-  let {valueInput}= props
   const [dataProduct, setDataProduct] = useState([]);
-  // const [valueInput, setVauleInput] = useState();
   const [dataCart, setDataCart] = useState([]);
+  const [valueInputQuantity, setValueInputQuantity] = useState(1);
   useEffect(() => {
     const fetDataProduct = async () => {
       const res = await fetch("http://localhost:3000/listproduct");
@@ -16,19 +15,16 @@ function App(props) {
     fetDataProduct().catch(console.error);
   }, []);
 
-
   //   start
   const handleSubmit = (e, $id) => {
     e.preventDefault();
-
     console.log(e.target.name.value);
-    const valueInput=e.target.name.value
-
-
+    const valueInput = e.target.name.value;
     const new_id = e.target.id;
     const check_cart = dataCart.filter((item) => item.id == new_id);
+    console.log(check_cart);
     if (check_cart.length !== 0) {
-      const new_quantity = check_cart[0].quantity + Number(valueInput)
+      const new_quantity = check_cart[0].quantity + Number(valueInput);
       const new_price = check_cart[0].price;
       const new_subtotal = new_quantity * new_price;
       const new_cart_update = {
@@ -53,6 +49,33 @@ function App(props) {
   };
   //   End
 
+  // Start
+
+  const handleChaneInputQuantity = (e) => {
+    setValueInputQuantity(valueInputQuantity + 1);
+  };
+  const handleClickUpdate = (e) => {
+    const new_id = e.target.id;
+    const check_cart = dataCart.filter((item) => item.id == new_id);
+    console.log(dataCart);
+    console.log(check_cart);
+
+    if (check_cart.length !== 0) {
+      const new_price = dataCart[0].price;
+      console.log(check_cart);
+      const new_quantity = Number(valueInputQuantity) + check_cart[0].quantity;
+      const new_subtotal = new_quantity * new_price;
+      axios
+        .patch(`http://localhost:3000/yourcart/${new_id}`, {
+          ...check_cart[0],
+          quantity: new_quantity,
+          new_subtotal,
+        })
+        .then((data) => console.log(data.data))
+        .catch((error) => console.log(error));
+    }
+  };
+
   const handleClickDelete = (e, i) => {
     let id = e.target.id;
     console.log(id);
@@ -76,11 +99,11 @@ function App(props) {
     <>
       <ShoppingCard
         handleSubmit={handleSubmit}
-    
         handleClickDelete={handleClickDelete}
+        handleClickUpdate={handleClickUpdate}
         dataCart={dataCart}
         dataProduct={dataProduct}
-      
+        handleChaneInputQuantity={handleChaneInputQuantity}
       />
     </>
   );
